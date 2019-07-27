@@ -1,5 +1,7 @@
 package com.wiredbrain.controllers;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +38,11 @@ public class FriendController {
 	 @DeleteMapping("/friend/{id}")
 	 void delete(@PathVariable Integer id) {
 		 friendService.deleteById(id);
+	 }
+	 
+	 @GetMapping("/friend/{id}")
+	 Optional<Friend> findById(@PathVariable Integer id) {
+		 return friendService.findById(id);
 	 }
 
 }
