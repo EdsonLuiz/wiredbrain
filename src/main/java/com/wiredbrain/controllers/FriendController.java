@@ -2,6 +2,8 @@ package com.wiredbrain.controllers;
 
 import java.util.Optional;
 
+import javax.validation.ValidationException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,11 @@ public class FriendController {
 	 
 	 @PostMapping("/friend")
 	 Friend create (@RequestBody Friend friend) {
-		 return friendService.save(friend);
+		 System.out.println(friend.toString());
+		 if(friend.getFirstName() == null || friend.getLastName() == null)
+			 throw new ValidationException("Friend cannot be created");
+		 else
+			 return friendService.save(friend);
 	 }
 	 
 	 @GetMapping("/friend")
