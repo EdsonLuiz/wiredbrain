@@ -2,7 +2,7 @@ package com.wiredbrain.controllers;
 
 import java.util.Optional;
 
-import javax.validation.ValidationException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,47 +21,44 @@ import com.wiredbrain.services.FriendService;
 
 @RestController
 public class FriendController {
-	
-	 @Autowired
-	 FriendService friendService;
-	 
-	 @PostMapping("/friend")
-	 Friend create (@RequestBody Friend friend) {
-		 System.out.println(friend.toString());
-		 if(friend.getFirstName() == null || friend.getLastName() == null)
-			 throw new ValidationException("Friend cannot be created");
-		 else
-			 return friendService.save(friend);
-	 }
-	 
-	 @GetMapping("/friend")
-	 Iterable<Friend> read() {
-		 return friendService.findAll();
-	 }
-	 
-	 @PutMapping("/friend")
-	 ResponseEntity<Friend> update(@RequestBody Friend friend) {
-		 if (friendService.findById(friend.getId()).isPresent()) {
-			return new ResponseEntity<Friend>(friendService.save(friend), HttpStatus.OK) ;
+
+	@Autowired
+	FriendService friendService;
+
+	@PostMapping("/friend")
+	Friend create(@Valid @RequestBody Friend friend) {
+		return friendService.save(friend);
+	}
+
+	@GetMapping("/friend")
+	Iterable<Friend> read() {
+		return friendService.findAll();
+	}
+
+	@PutMapping("/friend")
+	ResponseEntity<Friend> update(@RequestBody Friend friend) {
+		if (friendService.findById(friend.getId()).isPresent()) {
+			return new ResponseEntity<Friend>(friendService.save(friend), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<Friend>(friend, HttpStatus.BAD_REQUEST);
 		}
-		 
-	 }
-	 
-	 @DeleteMapping("/friend/{id}")
-	 void delete(@PathVariable Integer id) {
-		 friendService.deleteById(id);
-	 }
-	 
-	 @GetMapping("/friend/{id}")
-	 Optional<Friend> findById(@PathVariable Integer id) {
-		 return friendService.findById(id);
-	 }
-	 
-	 @GetMapping("/friend/search")
-	 Iterable<Friend> findByQuery(@RequestParam(value="first", required = false) String firstName, @RequestParam(value="last", required = false) String lastName) {
-		 if (firstName != null && lastName !=null) {
+
+	}
+
+	@DeleteMapping("/friend/{id}")
+	void delete(@PathVariable Integer id) {
+		friendService.deleteById(id);
+	}
+
+	@GetMapping("/friend/{id}")
+	Optional<Friend> findById(@PathVariable Integer id) {
+		return friendService.findById(id);
+	}
+
+	@GetMapping("/friend/search")
+	Iterable<Friend> findByQuery(@RequestParam(value = "first", required = false) String firstName,
+			@RequestParam(value = "last", required = false) String lastName) {
+		if (firstName != null && lastName != null) {
 			return friendService.findByFirstNameAndLastName(firstName, lastName);
 		} else if (firstName != null) {
 			return friendService.findByFirstName(firstName);
@@ -70,21 +67,7 @@ public class FriendController {
 		} else {
 			return friendService.findAll();
 		}
-		 
-	 }
+
+	}
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
