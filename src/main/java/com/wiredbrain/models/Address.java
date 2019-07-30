@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Address {
@@ -12,6 +13,25 @@ public class Address {
 	private Integer id;
 	private String street;
 	private String city;
+
+	@ManyToOne
+	private Friend friend;
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Friend getFriend() {
+		return friend;
+	}
+
+	public void setFriend(Friend friend) {
+		this.friend = friend;
+	}
 
 	public String getStreet() {
 		return street;
