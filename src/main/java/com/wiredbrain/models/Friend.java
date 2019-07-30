@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,7 +23,7 @@ public class Friend {
 	@JsonProperty("last-name")
 	private String lastName;
 
-	@OneToMany(mappedBy = "friend")
+	@ManyToMany(mappedBy = "friends")
 	private Set<Address> addresses;
 
 	public Set<Address> getAddresses() {
