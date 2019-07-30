@@ -1,10 +1,12 @@
 package com.wiredbrain.models;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Address {
@@ -14,8 +16,16 @@ public class Address {
 	private String street;
 	private String city;
 
-	@ManyToOne
-	private Friend friend;
+	@ManyToMany
+	private Set<Friend> friends;
+
+	public Set<Friend> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(Set<Friend> friends) {
+		this.friends = friends;
+	}
 
 	public Integer getId() {
 		return id;
@@ -23,14 +33,6 @@ public class Address {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public Friend getFriend() {
-		return friend;
-	}
-
-	public void setFriend(Friend friend) {
-		this.friend = friend;
 	}
 
 	public String getStreet() {
